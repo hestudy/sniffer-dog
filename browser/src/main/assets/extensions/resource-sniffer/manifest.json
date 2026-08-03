@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Resource Sniffer",
+  "version": "0.1.0",
+  "description": "Forwards network requests to the SnifferDog native host.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "resource-sniffer@snifferdog.com"
+    }
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>",
+    "nativeMessaging",
+    "geckoViewAddons"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

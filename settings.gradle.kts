@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven(url = "https://maven.mozilla.org/maven2/")
+    }
+}
+
+rootProject.name = "SnifferDog"
+
+include(":app")
+include(":browser")
+include(":sniffer")
+include(":ui")
