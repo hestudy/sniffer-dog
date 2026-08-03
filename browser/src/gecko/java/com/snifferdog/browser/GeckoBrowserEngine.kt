@@ -37,21 +37,20 @@ class GeckoBrowserEngine @Inject constructor(
 
     override fun createSession(): BrowserSession {
         warmUp()
-        val rt = requireNotNull(runtime)
         val session = GeckoSession()
-        session.open(rt)
+        session.open(requireNotNull(runtime))
         return GeckoBrowserSession(session)
     }
 
-    fun attach(view: View, session: BrowserSession) {
+    override fun createView(context: Context): View {
+        warmUp()
+        return GeckoView(context)
+    }
+
+    override fun attach(view: View, session: BrowserSession) {
         val geckoView = view as GeckoView
         val geckoSession = (session as GeckoBrowserSession).geckoSession
         geckoView.setSession(geckoSession)
-    }
-
-    fun newGeckoView(context: Context = this.context): View {
-        warmUp()
-        return GeckoView(context)
     }
 
     override fun shutdown() {

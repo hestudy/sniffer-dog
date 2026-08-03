@@ -16,11 +16,20 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    flavorDimensions += "engine"
+    productFlavors {
+        create("gecko") {
+            dimension = "engine"
+        }
+        create("homeDemo") {
+            dimension = "engine"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
 }
 
 kotlin {
@@ -31,7 +40,7 @@ kotlin {
 
 dependencies {
     api(project(":sniffer"))
-    implementation(libs.geckoview)
+    "geckoImplementation"(libs.geckoview)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
