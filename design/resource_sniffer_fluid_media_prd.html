@@ -1,0 +1,191 @@
+# Resource Sniffer - Fluid Media
+
+## Product Overview
+
+**The Pitch:** A hyper-minimalist mobile tool that acts as an x-ray for the web. Input any URL, let the embedded browser run, and instantly intercept, preview, and extract hidden image, audio, and video resources.
+
+**For:** Developers, designers, and digital archivists who need frictionless, mobile-first access to raw media assets hiding behind complex web pages.
+
+**Device:** mobile
+
+**Design Direction:** Liquid minimalism meets deep-space glassmorphism. Fluid ambient animations, ultra-soft frosted glass layers, and stark neon-cyan accents against a deep abyss background. 
+
+**Inspired by:** Arc Browser, Vercel's dark mode aesthetics.
+
+---
+
+## Screens
+
+- **Home Entry:** Stark, center-aligned URL input waiting for a target.
+- **Browser View:** Borderless embedded webview with a breathing, fluid floating action button tracking sniffed assets.
+- **Resource Drawer:** Frosted glass bottom-sheet categorizing captured media in real-time.
+- **Media Inspector:** Immersive full-bleed preview with 1-tap extraction tools.
+
+---
+
+## Key Flows
+
+**Sniff and Extract:** Input URL to copy target media.
+
+1. User is on **Home Entry** -> sees central pulsing input field.
+2. User types `https://example.com` and hits "Sniff" -> loads **Browser View**.
+3. Floating action button pulses as media loads -> User clicks FAB.
+4. **Resource Drawer** slides up -> User selects "Images" tab.
+5. User taps a specific image card -> opens **Media Inspector**.
+6. User taps "Copy cURL" -> Success toast appears, ready to paste.
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#00E5FF` - Cyan Glow (CTAs, active states, active tab borders)
+- **Background:** `#050914` - Abyssal Blue (App background, behind glass)
+- **Surface:** `rgba(255, 255, 255, 0.04)` - Frosted Glass (Cards, drawers)
+- **Surface Border:** `rgba(255, 255, 255, 0.08)` - Crisp edge definition
+- **Text:** `#F8FAFC` - Starlight White (Primary text, inputs)
+- **Muted:** `#64748B` - Slate (URLs, metadata, inactive tabs)
+- **Accent:** `#B400FF` - Liquid Purple (Gradient meshes, success states)
+
+## Typography
+
+- **Headings:** `Space Grotesk`, 700, 24-32px, tracking-tight
+- **Body:** `DM Sans`, 400, 16px
+- **Small text:** `DM Sans`, 400, 13px
+- **Code/Metadata:** `JetBrains Mono`, 400, 12px
+- **Buttons:** `Space Grotesk`, 600, 15px
+
+**Style notes:** 
+Maximum blur (`backdrop-blur-xl`), 24px border radii for major components, 16px for internal cards. No hard shadows; instead, use soft, colored outer glows (`box-shadow: 0 8px 32px rgba(0, 229, 255, 0.1)`). Ambient fluid mesh gradients slowly rotate in the app background.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #00E5FF;
+  --color-background: #050914;
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-text: #F8FAFC;
+  --color-muted: #64748B;
+  --color-accent: #B400FF;
+  --font-primary: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --spacing: 16px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Home Entry
+
+**Purpose:** Launchpad for the sniffing session.
+
+**Layout:** Perfectly centered vertical and horizontal alignment. Single point of focus.
+
+**Key Elements:**
+- **Ambient Background:** Slow-moving CSS gradient mesh (`#00E5FF` and `#B400FF` blobs at 20% opacity on `#050914`).
+- **Input Field:** `h-56px`, `w-full`, `rounded-full`, glassmorphic background, center-aligned placeholder "Enter target URL...". Glowing cyan focus ring.
+- **Go Button:** Embedded right-aligned inside input. 40px circular, vibrant cyan `#00E5FF`, containing a deep dark `#050914` arrow icon.
+
+**States:**
+- **Empty:** Input is dimmed.
+- **Loading:** Input collapses into a pulsing pill, transitioning to Browser View.
+
+**Components:**
+- **URL Input:** `56px`, `rgba(255,255,255,0.04)`, `16px Space Grotesk`
+
+**Interactions:**
+- **Focus Input:** `box-shadow` transitions to `0 0 20px rgba(0, 229, 255, 0.3)`.
+
+**Responsive:**
+- **Mobile:** Horizontal padding `24px`. Full width input.
+
+### Browser View
+
+**Purpose:** Renders the target site while silently capturing requests.
+
+**Layout:** Edge-to-edge webview. Floating overlay UI.
+
+**Key Elements:**
+- **Webview Container:** `w-full h-full`, rendering the target site.
+- **Top Nav:** Frosted glass pill, `h-40px`, centered at top (`top-16px`). Contains lock icon, truncated domain, and an "X" to close.
+- **Resource FAB:** Floating bottom-right (`bottom-24px right-24px`). 56px circular glass button. Contains a counter badge (`bg-[#B400FF]`) showing total sniffed assets.
+
+**States:**
+- **Loading (Initial):** Top nav shows a sweeping shimmer effect. FAB counter rapidly spins up as assets load.
+
+**Components:**
+- **Resource FAB:** `56px`, Glass + Cyan border, contains `14px` bold badge.
+
+**Interactions:**
+- **Click FAB:** Triggers Resource Drawer bottom-sheet overlay. FAB scales down slightly (`scale-95`).
+
+### Resource Drawer
+
+**Purpose:** Categorized triage of captured media.
+
+**Layout:** Modal bottom-sheet occupying bottom 85% of screen. Top drag-handle.
+
+**Key Elements:**
+- **Sheet Background:** `backdrop-blur-2xl`, `bg-[#050914]/70`, `rounded-t-3xl`, top border `1px solid rgba(255,255,255,0.1)`.
+- **Tab Bar:** 3 equal-width segments (Images, Audio, Video). Active tab gets an underline glow (`border-b-2 border-[#00E5FF]`).
+- **Resource List:** Vertical scrollable list of media cards.
+- **Media Card:** `h-80px`, flex row. Left: 64px square thumbnail or file icon. Center: Truncated filename/URL, size (`12px` Mono). Right: Quick copy icon.
+
+**States:**
+- **Empty:** "No assets detected yet" in muted text with a gentle pulsing radar SVG.
+- **Loading:** Ghost cards with sweeping linear gradients.
+
+**Components:**
+- **Media Card:** `80px`, `16px` radius, `rgba(255,255,255,0.02)`.
+
+**Interactions:**
+- **Swipe Down:** Closes the drawer back to Browser View.
+- **Click Media Card:** Opens Media Inspector modal.
+
+### Media Inspector
+
+**Purpose:** Detailed viewing and granular extraction of a single asset.
+
+**Layout:** Full-screen modal over blurred background.
+
+**Key Elements:**
+- **Media Preview:** Dominates top 60% of screen. Images fit-contain, Audio shows a fluid waveform, Video loops silently.
+- **Metadata Card:** Glass panel containing raw URL, file size, headers.
+- **Action Group:** Two large blocks at bottom. 
+  - **Copy URL:** 56px high, solid cyan button.
+  - **Copy cURL:** 56px high, glass button with cyan border.
+
+**Components:**
+- **Action Button:** `56px`, `24px` radius, `16px Space Grotesk`.
+
+**Interactions:**
+- **Click Copy:** Button briefly turns green (`#10B981`), text changes to "Copied!", haptic feedback triggers.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML5 + Tailwind CSS v3 (using CDN for rapid proto) + simple vanilla JS for state toggling.
+
+**Build Order:**
+1. **Home Entry:** Establishes the fluid mesh background and core input glassmorphism.
+2. **Browser View (Shell):** Sets up the absolute positioning for the webview iframe and floating UI elements.
+3. **Resource Drawer:** Builds the complex glass backdrop, tabs, and reusable list card components.
+4. **Media Inspector:** Reuses action buttons from Home, implements the full-screen layout overlay.
+
+</details>

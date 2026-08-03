@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-width=1.0" name="viewport"/>
+<title>Resource Sniffer - Resource Drawer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=DM+Sans:wght@400&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00E5FF",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#050914",
+                        "surface": "rgba(255, 255, 255, 0.04)",
+                        "border-subtle": "rgba(255, 255, 255, 0.08)",
+                        "text-main": "#F8FAFC",
+                        "muted": "#64748B",
+                        "accent": "#B400FF"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["DM Sans", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'neon': '0 8px 32px rgba(0, 229, 255, 0.1)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #000; /* Simulated underlying page */
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .glass-panel {
+            background: rgba(5, 9, 20, 0.7);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .7; transform: scale(1.05); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-text-main h-screen w-full relative flex flex-col justify-end">
+<!-- Ambient background element for presentation -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full mix-blend-screen filter blur-[100px] animate-[pulse_8s_ease-in-out_infinite]"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/20 rounded-full mix-blend-screen filter blur-[100px] animate-[pulse_10s_ease-in-out_infinite_reverse]"></div>
+</div>
+<!-- Screen Content: Resource Drawer -->
+<div class="relative z-10 w-full h-[751px] glass-panel rounded-t-xl flex flex-col shadow-neon transition-transform duration-300 ease-out transform translate-y-0" id="drawer">
+<!-- Drag Handle -->
+<div class="w-full pt-3 pb-5 flex justify-center cursor-pointer" onclick="document.getElementById('drawer').style.transform = 'translateY(100%)'">
+<div class="w-12 h-1.5 rounded-full bg-white/20"></div>
+</div>
+<!-- Tab Bar (From Shared Components) -->
+<div class="px-6 border-b border-border-subtle flex gap-8">
+<button class="flex-1 flex flex-col items-center justify-center border-b-[3px] border-primary pb-3 pt-2 text-primary font-display font-bold text-[15px] tracking-tight transition-colors">
+                Images
+            </button>
+<button class="flex-1 flex flex-col items-center justify-center border-b-[3px] border-transparent pb-3 pt-2 text-muted font-display font-bold text-[15px] tracking-tight hover:text-text-main transition-colors">
+                Audio
+            </button>
+<button class="flex-1 flex flex-col items-center justify-center border-b-[3px] border-transparent pb-3 pt-2 text-muted font-display font-bold text-[15px] tracking-tight hover:text-text-main transition-colors">
+                Video
+            </button>
+</div>
+<!-- Resource List -->
+<div class="flex-1 overflow-y-auto px-4 py-4 space-y-3 pb-12">
+<!-- Media Card 1 (Image) -->
+<div class="h-[80px] bg-surface rounded-DEFAULT flex items-center p-2 pr-4 border border-white/5 active:scale-[0.98] transition-transform cursor-pointer group">
+<div class="w-16 h-16 rounded-[12px] bg-background-dark overflow-hidden flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="Abstract liquid neon waves in cyan and purple on a dark background, highly detailed digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnSM9wzNzK-Uq9jeUg56bDiqF6bimRaY26i9slhq2JOs4-eibrZCRdurVY8QdXrMfOCSLPoNaxLU_dWU3blpEMN9ueHEMWhXXy4RbmA9KPQGfmF4shuJKA6OQR-4bghkpRzS5RIt5w-lTfgfDyPk_HHo8fdlnzaL505ZiuOCrzY5iReeR9bDDIT1udz0-CNSP1yNTwfjBbYelZEXIvk7NiRMTSTU9_Sitn9AfHuECbXYr27ZwJQTsURg"/>
+</div>
+<div class="ml-4 flex-1 min-w-0 flex flex-col justify-center">
+<h4 class="font-display font-semibold text-[15px] text-text-main truncate">hero-bg-fluid-mesh.webp</h4>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-mono text-[12px] text-muted">1.2 MB</span>
+<span class="w-1 h-1 rounded-full bg-white/20"></span>
+<span class="font-mono text-[12px] text-muted">1920x1080</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-muted group-hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50">
+<span class="material-symbols-outlined text-[20px]" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+<!-- Media Card 2 (Image) -->
+<div class="h-[80px] bg-surface rounded-DEFAULT flex items-center p-2 pr-4 border border-white/5 active:scale-[0.98] transition-transform cursor-pointer group">
+<div class="w-16 h-16 rounded-[12px] bg-background-dark overflow-hidden flex-shrink-0 relative flex items-center justify-center border border-white/10">
+<!-- Placeholder SVG for transparent PNGs -->
+<svg class="text-white/30" fill="none" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"></path>
+</svg>
+</div>
+<div class="ml-4 flex-1 min-w-0 flex flex-col justify-center">
+<h4 class="font-display font-semibold text-[15px] text-text-main truncate">logo-mark-white.png</h4>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-mono text-[12px] text-muted">45 KB</span>
+<span class="w-1 h-1 rounded-full bg-white/20"></span>
+<span class="font-mono text-[12px] text-muted">256x256</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-muted group-hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50">
+<span class="material-symbols-outlined text-[20px]" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+<!-- Loading State Ghost Card -->
+<div class="h-[80px] bg-surface rounded-DEFAULT flex items-center p-2 pr-4 border border-white/5">
+<div class="w-16 h-16 rounded-[12px] shimmer flex-shrink-0"></div>
+<div class="ml-4 flex-1 flex flex-col justify-center gap-2">
+<div class="h-4 w-3/4 rounded-sm shimmer"></div>
+<div class="h-3 w-1/3 rounded-sm shimmer"></div>
+</div>
+</div>
+<!-- Empty State (Demonstration - hidden by default, shown here for completeness of PRD) -->
+<div class="hidden flex-col items-center justify-center h-48 mt-8 text-center">
+<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 pulse-slow">
+<span class="material-symbols-outlined text-primary text-[32px]" data-icon="radar">radar</span>
+</div>
+<p class="font-display text-muted text-[16px]">No assets detected yet.</p>
+</div>
+</div>
+</div>
+<script>
+        // Simple script to handle tab switching visual logic
+        const tabs = document.querySelectorAll('.border-b-\\[3px\\]');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Reset all
+                tabs.forEach(t => {
+                    t.classList.remove('border-primary', 'text-primary');
+                    t.classList.add('border-transparent', 'text-muted');
+                });
+                // Set active
+                tab.classList.remove('border-transparent', 'text-muted');
+                tab.classList.add('border-primary', 'text-primary');
+            });
+        });
+
+        // Copy button interaction
+        const copyBtns = document.querySelectorAll('.material-symbols-outlined[data-icon="content_copy"]');
+        copyBtns.forEach(btn => {
+            btn.parentElement.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent card click
+                const originalText = btn.textContent;
+                btn.textContent = 'check';
+                btn.parentElement.classList.add('text-[#10B981]');
+                btn.parentElement.classList.remove('text-muted', 'group-hover:text-primary');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.parentElement.classList.remove('text-[#10B981]');
+                    btn.parentElement.classList.add('text-muted', 'group-hover:text-primary');
+                }, 1500);
+            });
+        });
+    </script>
+</body></html>

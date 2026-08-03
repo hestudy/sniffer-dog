@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-width=1.0" name="viewport"/>
+<title>Resource Sniffer - Browser View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#0ddbf2",
+          "background-light": "#f5f8f8",
+          "background-dark": "#102022",
+          "surface": "rgba(255, 255, 255, 0.04)",
+          "border": "rgba(255, 255, 255, 0.08)",
+          "text-main": "#F8FAFC",
+          "muted": "#64748B",
+          "accent": "#B400FF",
+          "app-bg": "#050914"
+        },
+        fontFamily: {
+          "display": ["Space Grotesk", "sans-serif"],
+          "body": ["DM Sans", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        },
+        borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+        animation: {
+          'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          'spin-slow': 'spin 8s linear infinite',
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: #050914;
+    color: #F8FAFC;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(13, 219, 242, 0.3);
+  }
+
+  .fab-active:active {
+    transform: scale(0.95);
+  }
+
+  /* Custom scrollbar for webview mockup */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-screen w-full overflow-hidden relative selection:bg-primary/30 selection:text-white">
+<!-- Shared TopAppBar -->
+<div class="absolute top-0 left-0 w-full z-50 pointer-events-none">
+<div class="relative flex h-auto w-full flex-col bg-transparent group/design-root pointer-events-auto" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center drop-shadow-md" data-icon="Lock" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-68-56a12,12,0,1,1-12-12A12,12,0,0,1,140,152Z"></path>
+</svg>
+</div>
+<div class="glass-panel px-4 py-2 rounded-full flex items-center justify-center gap-2 max-w-[200px]">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">lock</span>
+<h2 class="text-white text-sm font-bold leading-tight tracking-tight truncate">example.com</h2>
+</div>
+<div class="flex w-12 items-center justify-end drop-shadow-md">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-transparent text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0 hover:bg-white/10 transition-colors">
+<div class="text-white" data-icon="X" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewbox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+</svg>
+</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Simulated Embedded Webview Container -->
+<div class="absolute inset-0 z-0 bg-background-dark overflow-y-auto">
+<!-- Webview Mockup Content -->
+<div class="w-full min-h-[1326px] bg-gradient-to-b from-[#111] to-[#222] opacity-80 pt-24 px-4">
+<div class="max-w-3xl mx-auto space-y-8 pointer-events-none opacity-50">
+<!-- Skeleton layout mimicking a webpage -->
+<div class="h-64 w-full bg-white/5 rounded-2xl relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shimmer_2s_infinite]" style="transform: skewX(-20deg);"></div>
+</div>
+<div class="space-y-4">
+<div class="h-8 w-3/4 bg-white/5 rounded-lg"></div>
+<div class="h-4 w-full bg-white/5 rounded-md"></div>
+<div class="h-4 w-5/6 bg-white/5 rounded-md"></div>
+<div class="h-4 w-4/6 bg-white/5 rounded-md"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="h-40 bg-white/5 rounded-xl"></div>
+<div class="h-40 bg-white/5 rounded-xl"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Resource FAB (Floating Action Button) -->
+<div class="absolute bottom-6 right-6 z-50">
+<button class="relative group outline-none fab-active transition-transform duration-200 ease-out" id="resourceFab">
+<!-- Pulsing outer glow for loading state -->
+<div class="absolute -inset-2 bg-primary/20 rounded-full blur-md animate-pulse-slow"></div>
+<!-- Main FAB Body -->
+<div class="glass-panel w-14 h-14 rounded-full flex items-center justify-center border-primary/50 relative z-10 hover:border-primary transition-colors overflow-hidden">
+<!-- Inner rotating gradient -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-accent/10 animate-spin-slow"></div>
+<span class="material-symbols-outlined text-primary text-3xl relative z-10" style="font-variation-settings: 'FILL' 0;">radar</span>
+</div>
+<!-- Counter Badge -->
+<div class="absolute -top-1 -right-1 bg-accent text-white text-xs font-display font-bold h-6 min-w-[24px] px-1.5 rounded-full flex items-center justify-center shadow-[0_0_10px_rgba(180,0,255,0.5)] z-20 border border-white/20">
+<span id="counterValue">42</span>
+</div>
+</button>
+</div>
+<script>
+    // Micro-interaction for FAB counting up slightly to simulate loading
+    document.addEventListener('DOMContentLoaded', () => {
+      const counter = document.getElementById('counterValue');
+      let currentVal = parseInt(counter.innerText);
+      
+      // Simulate finding new assets periodically
+      setInterval(() => {
+        if(Math.random() > 0.7) {
+          currentVal += Math.floor(Math.random() * 3) + 1;
+          counter.innerText = currentVal;
+          
+          // Tiny scale bump on new asset
+          counter.style.transform = 'scale(1.2)';
+          setTimeout(() => {
+            counter.style.transform = 'scale(1)';
+          }, 150);
+        }
+      }, 2000);
+    });
+  </script>
+</body></html>

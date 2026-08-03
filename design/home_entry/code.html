@@ -1,0 +1,152 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Resource Sniffer - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=DM+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ddbf2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#102022",
+                        "app-bg": "#050914",
+                        "surface-glass": "rgba(255, 255, 255, 0.04)",
+                        "surface-border": "rgba(255, 255, 255, 0.08)",
+                        "accent-purple": "#B400FF"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["DM Sans", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite alternate',
+                        'blob-reverse': 'blob-reverse 12s infinite alternate',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        'blob-reverse': {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(-30px, 50px) scale(0.9)' },
+                            '66%': { transform: 'translate(20px, -20px) scale(1.1)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '1', transform: 'scale(1)', boxShadow: '0 0 15px rgba(13, 219, 242, 0.5)' },
+                            '50%': { opacity: '.8', transform: 'scale(0.98)', boxShadow: '0 0 5px rgba(13, 219, 242, 0.2)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #050914;
+            color: #F8FAFC;
+            overflow: hidden;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .input-glow:focus-within {
+            box-shadow: 0 0 20px rgba(13, 219, 242, 0.3);
+            border-color: rgba(13, 219, 242, 0.5);
+        }
+
+        .loading-state {
+            width: 80px !important;
+            border-radius: 9999px !important;
+            animation: pulse-glow 1.5s infinite;
+        }
+        
+        .loading-state input, .loading-state button {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen w-full relative flex items-center justify-center selection:bg-primary selection:text-app-bg h-full flex-col">
+<!-- Ambient Background Mesh -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-primary rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob"></div>
+<div class="absolute bottom-[20%] right-[10%] w-[250px] h-[250px] bg-accent-purple rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-blob-reverse"></div>
+<div class="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary rounded-full mix-blend-screen filter blur-[120px] opacity-10 animate-blob animation-delay-2000"></div>
+</div>
+<!-- Main Content Container -->
+<main class="relative z-10 w-full max-w-md px-6 flex flex-col items-center justify-center min-h-screen">
+<!-- Header / Logo (Optional contextual anchor) -->
+<div class="text-center opacity-80 mb-8" id="brand-header">
+<h1 class="text-3xl font-bold tracking-tighter text-white font-display flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">radar</span>
+                Sniffer
+            </h1>
+<p class="text-sm font-body text-slate-400 mt-2">Fluid Media Extractor</p>
+</div>
+<!-- Glassmorphic Input Form -->
+<form class="w-full relative transition-all duration-500 ease-in-out flex justify-center" id="url-form" onsubmit="handleSniff(event)">
+<div class="glass-panel w-full h-[56px] rounded-full flex items-center justify-between p-1.5 input-glow transition-all duration-500 ease-in-out origin-center" id="input-container">
+<input autocomplete="off" class="w-full h-full bg-transparent border-none text-white text-center font-display text-base placeholder:text-slate-500 focus:outline-none focus:ring-0 px-4 transition-opacity duration-300" id="url-input" placeholder="Enter target URL..." required="" type="url">
+<button class="h-11 w-11 shrink-0 rounded-full bg-primary flex items-center justify-center hover:bg-opacity-90 active:scale-95 transition-all duration-200" id="go-btn" type="submit">
+<span class="material-symbols-outlined text-app-bg text-2xl font-bold">arrow_forward</span>
+</button>
+</div>
+</form>
+</main>
+<script>
+        function handleSniff(e) {
+            e.preventDefault();
+            const inputContainer = document.getElementById('input-container');
+            const header = document.getElementById('brand-header');
+            
+            // Trigger Loading State
+            inputContainer.classList.add('loading-state');
+            header.style.opacity = '0';
+            header.style.transform = 'translateY(-20px)';
+            header.style.transition = 'all 0.5s ease';
+
+            // Simulate transition to Browser View after a delay
+            setTimeout(() => {
+                // In a real app, this would route to the browser view
+                // For this demo, we'll just reset after a few seconds
+                alert("Navigating to Browser View for: " + document.getElementById('url-input').value);
+                
+                // Reset
+                inputContainer.classList.remove('loading-state');
+                header.style.opacity = '0.8';
+                header.style.transform = 'translateY(0)';
+                document.getElementById('url-input').value = '';
+            }, 2500);
+        }
+    </script>
+
+
+</body></html>
