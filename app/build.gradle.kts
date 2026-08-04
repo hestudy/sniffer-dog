@@ -31,6 +31,18 @@ android {
         }
     }
 
+    flavorDimensions += "engine"
+    productFlavors {
+        create("gecko") {
+            dimension = "engine"
+        }
+        create("homeDemo") {
+            dimension = "engine"
+            applicationIdSuffix = ".homedemo"
+            versionNameSuffix = "-homeDemo"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

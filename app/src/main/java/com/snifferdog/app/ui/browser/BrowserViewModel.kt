@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.snifferdog.browser.BrowserEngine
 import com.snifferdog.browser.BrowserSession
-import com.snifferdog.browser.GeckoBrowserEngine
 import com.snifferdog.sniffer.SnifferRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -22,9 +21,6 @@ class BrowserViewModel @Inject constructor(
     private val engine: BrowserEngine,
     private val snifferRepository: SnifferRepository,
 ) : ViewModel() {
-
-    private val geckoEngine: GeckoBrowserEngine
-        get() = engine as GeckoBrowserEngine
 
     private var session: BrowserSession? = null
 
@@ -45,10 +41,10 @@ class BrowserViewModel @Inject constructor(
         return created
     }
 
-    fun createBrowserView(context: Context): View = geckoEngine.newGeckoView(context)
+    fun createBrowserView(context: Context): View = engine.createView(context)
 
     fun attachSession(view: View, session: BrowserSession) {
-        geckoEngine.attach(view, session)
+        engine.attach(view, session)
     }
 
     fun releaseSession() {
